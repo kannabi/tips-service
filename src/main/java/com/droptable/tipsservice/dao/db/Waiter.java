@@ -7,6 +7,7 @@ import java.util.List;
 @Table(name = "waiters")
 public class Waiter {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
 
     @Column(name = "name", nullable = false)
@@ -25,8 +26,7 @@ public class Waiter {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "waiter")
     private List<Tip> tips;
 
-    public Waiter(String id, String name, String code, String accountBill, Restaurant restaurant) {
-        this.id = id;
+    public Waiter(String name, String code, String accountBill, Restaurant restaurant) {
         this.name = name;
         this.code = code;
         this.accountBill = accountBill;

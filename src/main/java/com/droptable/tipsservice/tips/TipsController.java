@@ -36,7 +36,7 @@ public class TipsController {
                     Long time
     ) {
         try {
-            tipsService.registerTips(userId, waiterId, sum, time);
+            tipsService.registerTips(waiterId, sum, time);
             return new Response(HttpStatus.OK.value(), "Tip has been processed");
         } catch (NoSuchElementException e) {
             return new Response(HttpStatus.NOT_FOUND.value(), e.getMessage());

@@ -1,3 +1,4 @@
+CREATE SEQUENCE public.hibernate_sequence;
 CREATE TABLE restaurants (
   id TEXT PRIMARY KEY,
   name TEXT NOT NULL,

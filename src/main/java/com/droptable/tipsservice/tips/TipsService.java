@@ -23,7 +23,7 @@ public class TipsService {
         this.waitersRepository = waitersRepository;
     }
 
-    public void registerTips(String userId, String waiterId, BigDecimal sum, Long time) throws NoSuchElementException {
+    public void registerTips(String waiterId, BigDecimal sum, Long time) throws NoSuchElementException {
         Optional<Waiter> waiter = waitersRepository.findById(waiterId);
         if (!waiter.isPresent()) {
             throw new NoSuchElementException("There is now waiter with this id");

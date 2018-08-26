@@ -8,6 +8,7 @@ import java.util.List;
 public class Restaurant {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private String id;
 
@@ -20,8 +21,7 @@ public class Restaurant {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "restaurant")
     private List<Waiter> waiters;
 
-    public Restaurant(String id, String name, String password, List<Waiter> waiters) {
-        this.id = id;
+    public Restaurant(String name, String password, List<Waiter> waiters) {
         this.name = name;
         this.password = password;
         this.waiters = waiters;
