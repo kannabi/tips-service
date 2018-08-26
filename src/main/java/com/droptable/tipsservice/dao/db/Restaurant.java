@@ -1,4 +1,4 @@
-package com.droptable.tipsservice.dao;
+package com.droptable.tipsservice.dao.db;
 
 import javax.persistence.*;
 import java.util.List;
