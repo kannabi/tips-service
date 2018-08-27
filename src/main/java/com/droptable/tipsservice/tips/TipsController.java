@@ -26,8 +26,6 @@ public class TipsController {
     @ResponseBody
     @ApiOperation("Process tips for waiter")
     public Response processTip(
-            @ApiParam("Client's id")
-                    String userId,
             @ApiParam("Waiter's id")
                     String waiterId,
             @ApiParam("Sum of a tip to the waiter")
