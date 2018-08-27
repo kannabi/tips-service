@@ -10,8 +10,17 @@ public class Waiter {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
+
+    @Column(name = "second_name", nullable = false)
+    private String secondName;
+
+    @Column(name = "third_name", nullable = false)
+    private String thirdName;
+
+    @Column(name = "email", nullable = false)
+    private String email;
 
     @Column(name = "code", nullable = false)
     private String code;
@@ -26,11 +35,18 @@ public class Waiter {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "waiter")
     private List<Tip> tips;
 
-    public Waiter(String name, String code, String accountBill, Restaurant restaurant) {
-        this.name = name;
+    public Waiter(
+            String firstName, String secondName, String thirdName,
+            String email, String code, String accountBill,
+            Restaurant restaurant, List<Tip> tips) {
+        this.firstName = firstName;
+        this.secondName = secondName;
+        this.thirdName = thirdName;
+        this.email = email;
         this.code = code;
         this.accountBill = accountBill;
         this.restaurant = restaurant;
+        this.tips = tips;
     }
 
     public Waiter() {
@@ -44,12 +60,36 @@ public class Waiter {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getSecondName() {
+        return secondName;
+    }
+
+    public void setSecondName(String secondName) {
+        this.secondName = secondName;
+    }
+
+    public String getThirdName() {
+        return thirdName;
+    }
+
+    public void setThirdName(String thirdName) {
+        this.thirdName = thirdName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getCode() {

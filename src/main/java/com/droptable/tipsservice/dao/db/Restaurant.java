@@ -15,14 +15,31 @@ public class Restaurant {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "email", nullable = false)
+    private String email;
+
+    @Column(name = "login", nullable = false)
+    private String login;
+
+    @Column(name = "account_bill", nullable = false)
+    private String accountBill;
+
     @Column(name = "password", nullable = false)
     private String password;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "restaurant")
     private List<Waiter> waiters;
 
-    public Restaurant(String name, String password, List<Waiter> waiters) {
+    public Restaurant(String name,
+                      String email,
+                      String login,
+                      String accountBill,
+                      String password,
+                      List<Waiter> waiters) {
         this.name = name;
+        this.email = email;
+        this.login = login;
+        this.accountBill = accountBill;
         this.password = password;
         this.waiters = waiters;
     }
@@ -44,6 +61,30 @@ public class Restaurant {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getAccountBill() {
+        return accountBill;
+    }
+
+    public void setAccountBill(String accountBill) {
+        this.accountBill = accountBill;
     }
 
     public String getPassword() {
