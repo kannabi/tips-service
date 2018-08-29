@@ -1,12 +1,8 @@
 package com.droptable.tipsservice.dao.api;
 
-import com.droptable.tipsservice.dao.db.Restaurant;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class ApiRestaurant {
+public class RestaurantSignUp {
 
     @JsonProperty("name")
     private String name;
@@ -20,33 +16,18 @@ public class ApiRestaurant {
     @JsonProperty("business_account")
     private String accountBill;
 
-    @JsonProperty("stuff_ids")
-    private List<String> waiters;
+    @JsonProperty("password")
+    private String password;
 
-    public ApiRestaurant(String name, String email, String login, String accountBill, List<String> waiters) {
+    public RestaurantSignUp(String name, String email, String login, String accountBill, String password) {
         this.name = name;
         this.email = email;
         this.login = login;
         this.accountBill = accountBill;
-        this.waiters = waiters;
+        this.password = password;
     }
 
-    public ApiRestaurant(Restaurant restaurant) {
-        name = restaurant.getName();
-        email = restaurant.getEmail();
-        login = restaurant.getLogin();
-        accountBill = restaurant.getAccountBill();
-
-        List<String> ids = new ArrayList<>();
-
-//        for (Waiter waiter: restaurant.getWaiters()) {
-//            ids.add(waiter.getId());
-//        }
-
-        waiters = ids;
-    }
-
-    public ApiRestaurant() {
+    public RestaurantSignUp() {
     }
 
     public String getName() {
@@ -81,11 +62,11 @@ public class ApiRestaurant {
         this.accountBill = accountBill;
     }
 
-    public List<String> getWaiters() {
-        return waiters;
+    public String getPassword() {
+        return password;
     }
 
-    public void setWaiters(List<String> waiters) {
-        this.waiters = waiters;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
