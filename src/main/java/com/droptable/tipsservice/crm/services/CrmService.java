@@ -189,6 +189,17 @@ public class CrmService {
         if (data != null && !data.equals(waiter.getEmail())) {
             waiter.setEmail(data);
         }
+
+        return Mono.just(waitersRepository.save(waiter));
     }
 
+    public void deleteWaiter(String id) {
+        try {
+            waitersRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new WaiterNotFound();
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
