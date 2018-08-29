@@ -36,16 +36,19 @@ public class CrmController {
             value = "/organizations",
             consumes =  MediaType.APPLICATION_JSON_VALUE
     )
-    public Mono<ResponseEntity<ApiRestaurant>> signUp(@Valid @RequestBody RestaurantSignUp restaurantSignUp){
-        return crmService.createRestaurant(restaurantSignUp).map(ResponseEntity::ok);
+    public Mono<ResponseEntity<ApiRestaurantWrapper>> signUp(@Valid @RequestBody RestaurantSignUp restaurantSignUp){
+        return crmService.createRestaurant(restaurantSignUp)
+                .map(ApiRestaurantWrapper::new)
+                .map(ResponseEntity::ok);
     }
 
     @GetMapping(
             value = "/organizations/me",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Mono<ApiRestaurant> getApiRestaurant(@RequestHeader(value = "Authorization") String bearerToken) {
-        return crmService.getApiRestaurant(bearerToken);
+    public Mono<ApiRestaurantWrapper> getApiRestaurant(@RequestHeader(value = "Authorization") String bearerToken) {
+        return crmService.getApiRestaurant(bearerToken)
+                .map(ApiRestaurantWrapper::new);
     }
 
     @PutMapping(
