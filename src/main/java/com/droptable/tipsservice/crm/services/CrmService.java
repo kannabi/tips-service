@@ -22,7 +22,6 @@ import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
-import java.util.Optional;
 
 @Service
 public class CrmService {
@@ -84,12 +83,13 @@ public class CrmService {
         );
     }
 
-    public Mono<ApiRestaurant> getApiRestaurant(String id) {
-        Optional<Restaurant> restaurantOptional = restaurantsRepository.findById(id);
-        if (!restaurantOptional.isPresent()) {
+    public Mono<ApiRestaurant> getApiRestaurant(String bearerToken) {
+        String login = validateToken(bearerToken);
+        Restaurant restaurant = restaurantsRepository.findByLogin(login);
+        if (restaurant == null) {
             throw new OrganizationNotFound();
         }
-        return Mono.just(new ApiRestaurant(restaurantOptional.get()));
+        return Mono.just(new ApiRestaurant(restaurant));
     }
 
     public Mono<ApiRestaurant> updateRestaurant(RestaurantUpdate restaurantUpdate) {
@@ -158,5 +158,21 @@ public class CrmService {
                 )
             )
         );
+    }
+
+    /**
+     *
+     * @param bearerToken
+     * 				Jwt auth token with Bearer prefix
+     * @return username if the Token is valid
+     */
+    private String validateToken(String bearerToken) {
+        String authToken = jwtTokenUtil.formatToken(bearerToken);
+
+        if (this.jwtTokenUtil.validateToken(authToken)) {
+            return jwtTokenUtil.getLoginFromToken(authToken);
+        }
+
+        return null;
     }
 }

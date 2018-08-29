@@ -51,7 +51,7 @@ public class JwtAuthenticationConverter implements Function<ServerWebExchange, M
 
 			if (authToken != null) {
 				try {
-					username = jwtTokenUtil.getUsernameFromToken(authToken);
+					username = jwtTokenUtil.getLoginFromToken(authToken);
 				} catch (IllegalArgumentException e) {
 					return Mono.error(new GetUsernameFromTokenException("An error occurred during validating the token!"));
 				} catch (Exception e) {

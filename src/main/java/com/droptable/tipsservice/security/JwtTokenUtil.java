@@ -21,7 +21,7 @@ public class JwtTokenUtil implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Clock clock = DefaultClock.INSTANCE;
 
-	public String getUsernameFromToken(String token) {
+	public String getLoginFromToken(String token) {
 		return getClaimFromToken(token, Claims::getSubject);
 	}
 

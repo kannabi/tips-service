@@ -33,7 +33,7 @@ public class CrmController {
     }
 
     @PostMapping(
-            value = "/organizations/create",
+            value = "/organizations",
             consumes =  MediaType.APPLICATION_JSON_VALUE
     )
     public Mono<ResponseEntity<ApiRestaurant>> signUp(@Valid @RequestBody RestaurantSignUp restaurantSignUp){
@@ -44,8 +44,8 @@ public class CrmController {
             value = "/organizations/me",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Mono<ApiRestaurant> getApiRestaurant(String id) {
-        return crmService.getApiRestaurant(id);
+    public Mono<ApiRestaurant> getApiRestaurant(@RequestHeader(value = "Authorization") String bearerToken) {
+        return crmService.getApiRestaurant(bearerToken);
     }
 
     @PutMapping(
