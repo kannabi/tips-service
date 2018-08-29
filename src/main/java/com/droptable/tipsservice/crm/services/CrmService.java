@@ -6,6 +6,7 @@ import com.droptable.tipsservice.crm.exceptions.WrongCredentialsException;
 import com.droptable.tipsservice.dao.api.ApiRestaurant;
 import com.droptable.tipsservice.dao.api.JwtToken;
 import com.droptable.tipsservice.dao.api.RestaurantSignUp;
+import com.droptable.tipsservice.dao.api.RestaurantUpdate;
 import com.droptable.tipsservice.dao.db.Restaurant;
 import com.droptable.tipsservice.repositories.RestaurantsRepository;
 import com.droptable.tipsservice.security.CustomPasswordEncoder;
@@ -81,8 +82,32 @@ public class CrmService {
     public Mono<ApiRestaurant> getApiRestaurant(String id) {
         Optional<Restaurant> restaurantOptional = restaurantsRepository.findById(id);
         if (!restaurantOptional.isPresent()) {
-            throw new OrganizationNotFound("Organization didn't found");
+            throw new OrganizationNotFound();
         }
         return Mono.just(new ApiRestaurant(restaurantOptional.get()));
+    }
+
+    public Mono<ApiRestaurant> updateRestaurant(RestaurantUpdate restaurantUpdate) {
+        Restaurant restaurant =
+                restaurantsRepository.findById(restaurantUpdate.getId())
+                        .orElseThrow(OrganizationNotFound::new);
+
+        String data = restaurantUpdate.getAccountBill();
+        if (data != null && !data.equals(restaurant.getAccountBill())) {
+            restaurant.setAccountBill(data);
+        }
+
+        data = restaurantUpdate.getName();
+        if (data != null && !data.equals(restaurant.getName())) {
+            restaurant.setName(data);
+        }
+
+        data = restaurantUpdate.getEmail();
+        if (data != null && !data.equals(restaurant.getEmail())) {
+            restaurant.setEmail(data);
+        }
+
+        return Mono.just(restaurantsRepository.save(restaurant))
+                .map(ApiRestaurant::new);
     }
 }

@@ -1,10 +1,7 @@
 package com.droptable.tipsservice.crm.controllers;
 
 import com.droptable.tipsservice.crm.services.CrmService;
-import com.droptable.tipsservice.dao.api.ApiRestaurant;
-import com.droptable.tipsservice.dao.api.AuthData;
-import com.droptable.tipsservice.dao.api.JwtToken;
-import com.droptable.tipsservice.dao.api.RestaurantSignUp;
+import com.droptable.tipsservice.dao.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,22 +20,6 @@ public class CrmController {
     public CrmController(CrmService crmService) {
         this.crmService = crmService;
     }
-
-//    @PostMapping()
-//    @ResponseBody
-//    public ApiRestaurant signUp(@RequestBody RestaurantSignUp restaurantSignUp) {
-//        return crmService.createRestaurant(restaurantSignUp);
-//    }
-
-//    @PostMapping()
-//    @ResponseBody
-//    public ApiRestaurant auth(@RequestParam String login, @RequestParam String password) throws OrganizationNotFound {
-//        ApiRestaurant apiRestaurant = crmService.getApiRestaurant(login);
-//        if (null == apiRestaurant) {
-//            throw new OrganizationNotFound("Organization not found");
-//        }
-//        return apiRestaurant;
-//    }
 
     @PostMapping(
             value = "/auth",
@@ -62,8 +43,17 @@ public class CrmController {
             value = "/organizations/me",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-//    public Mono<> getApiRestaurant(@RequestHeader(value = "Authorization") String bearerToken) {
     public Mono<ApiRestaurant> getApiRestaurant(String id) {
         return crmService.getApiRestaurant(id);
+    }
+
+    @PutMapping(
+            value = "/organizations/update",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public Mono<UpdateRestaurantResponse> updateRestaurant(@Valid @RequestBody RestaurantUpdate restaurantUpdate) {
+        return crmService.updateRestaurant(restaurantUpdate)
+                .map(UpdateRestaurantResponse::new);
     }
 }
