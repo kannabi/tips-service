@@ -74,4 +74,23 @@ public class CrmController {
     public Mono<Waiter> createWaiter(@RequestBody WaiterCreateRequest request) {
         return crmService.createWaiter(request);
     }
+
+    @GetMapping(
+        value = "/stuffs",
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public Mono<WaitersResponse> getWaiters(
+            @RequestParam("organization_id") String organizationId,
+            @RequestParam("page") int page,
+            @RequestParam("per_page") int perPage
+    ) {
+        return crmService.getWaiters(organizationId, page, perPage)
+                .map(waitersPage ->
+                    new WaitersResponse(
+                        waitersPage.getContent(),
+                        page,
+                        waitersPage.getTotalPages()
+                    )
+                );
+    }
 }

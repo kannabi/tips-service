@@ -12,6 +12,9 @@ import com.droptable.tipsservice.security.CustomPasswordEncoder;
 import com.droptable.tipsservice.security.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
@@ -145,4 +148,15 @@ public class CrmService {
         });
     }
 
+    public Mono<Page<Waiter>> getWaiters(String organizationId, int page, int perPage) {
+        return Mono.just(
+            waitersRepository.findAllByRestaurant(
+                restaurantsRepository.findById(organizationId)
+                        .orElseThrow(OrganizationNotFound::new),
+                PageRequest.of(
+                        page, perPage, Sort.by(new Sort.Order(Sort.Direction.ASC, "firstName"))
+                )
+            )
+        );
+    }
 }
