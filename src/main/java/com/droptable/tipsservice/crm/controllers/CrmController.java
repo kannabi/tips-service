@@ -2,6 +2,7 @@ package com.droptable.tipsservice.crm.controllers;
 
 import com.droptable.tipsservice.crm.services.CrmService;
 import com.droptable.tipsservice.dao.api.*;
+import com.droptable.tipsservice.dao.db.Waiter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -63,5 +64,14 @@ public class CrmController {
     )
     public void deleteRestaurant(@RequestBody Id id) {
         crmService.deleteRestaurant(id.getId());
+    }
+
+    @PostMapping(
+            value = "/stuffs/create",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public Mono<Waiter> createWaiter(@RequestBody WaiterCreateRequest request) {
+        return crmService.createWaiter(request);
     }
 }

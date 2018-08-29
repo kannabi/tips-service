@@ -1,5 +1,6 @@
 package com.droptable.tipsservice.dao.db;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -30,7 +31,12 @@ public class Restaurant {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "restaurant")
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "restaurant"
+    )
+    @JsonIgnore
     private List<Waiter> waiters;
 
     public Restaurant(String name,

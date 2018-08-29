@@ -3,12 +3,11 @@ package com.droptable.tipsservice.crm.services;
 import com.droptable.tipsservice.crm.exceptions.OrganizationAlreadyExist;
 import com.droptable.tipsservice.crm.exceptions.OrganizationNotFound;
 import com.droptable.tipsservice.crm.exceptions.WrongCredentialsException;
-import com.droptable.tipsservice.dao.api.ApiRestaurant;
-import com.droptable.tipsservice.dao.api.JwtToken;
-import com.droptable.tipsservice.dao.api.RestaurantSignUp;
-import com.droptable.tipsservice.dao.api.RestaurantUpdate;
+import com.droptable.tipsservice.dao.api.*;
 import com.droptable.tipsservice.dao.db.Restaurant;
+import com.droptable.tipsservice.dao.db.Waiter;
 import com.droptable.tipsservice.repositories.RestaurantsRepository;
+import com.droptable.tipsservice.repositories.WaitersRepository;
 import com.droptable.tipsservice.security.CustomPasswordEncoder;
 import com.droptable.tipsservice.security.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,20 +25,20 @@ import java.util.Optional;
 public class CrmService {
 
     private final RestaurantsRepository restaurantsRepository;
+    private final WaitersRepository waitersRepository;
 
-//    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final CustomPasswordEncoder passwordEncryptor;
     private final JwtTokenUtil jwtTokenUtil;
 
     @Autowired
     public CrmService(
             RestaurantsRepository restaurantsRepository,
-//            BCryptPasswordEncoder bCryptPasswordEncoder,
+            WaitersRepository waitersRepository,
             CustomPasswordEncoder passwordEncryptor,
             JwtTokenUtil jwtTokenUtil
     ) {
         this.restaurantsRepository = restaurantsRepository;
-//        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.waitersRepository= waitersRepository;
         this.passwordEncryptor = passwordEncryptor;
         this.jwtTokenUtil = jwtTokenUtil;
     }
@@ -123,4 +122,27 @@ public class CrmService {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    public Mono<Waiter> createWaiter(WaiterCreateRequest request) {
+        return Mono.just(
+            restaurantsRepository.findById(request.getOrganizationId())
+                    .orElseThrow(OrganizationNotFound::new)
+        )
+        .map(restaurant -> {
+            Waiter waiter = new Waiter(
+                    request.getFirstName(),
+                    request.getSecondName(),
+                    request.getThirdName(),
+                    request.getEmail(),
+                    "",
+                    request.getAccountBill()
+            );
+
+            waiter.setRestaurant(restaurant);
+            waiter.setTips(new ArrayList<>());
+
+            return waitersRepository.save(waiter);
+        });
+    }
+
 }
