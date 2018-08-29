@@ -2,6 +2,7 @@ package com.droptable.tipsservice.crm.services;
 
 import com.droptable.tipsservice.crm.exceptions.OrganizationAlreadyExist;
 import com.droptable.tipsservice.crm.exceptions.OrganizationNotFound;
+import com.droptable.tipsservice.crm.exceptions.WaiterNotFound;
 import com.droptable.tipsservice.crm.exceptions.WrongCredentialsException;
 import com.droptable.tipsservice.dao.api.*;
 import com.droptable.tipsservice.dao.db.Restaurant;
@@ -158,6 +159,48 @@ public class CrmService {
                 )
             )
         );
+    }
+
+    public Mono<Waiter> updateWaiter(UpdateWaiterRequest request) {
+        Waiter waiter = waitersRepository.findById(request.getId())
+                .orElseThrow(WaiterNotFound::new);
+
+        String data = request.getFirstName();
+        if (data != null && !data.equals(waiter.getFirstName())) {
+            waiter.setFirstName(data);
+        }
+
+        data = request.getSecondName();
+        if (data != null && !data.equals(waiter.getSecondName())) {
+            waiter.setSecondName(data);
+        }
+
+        data = request.getThirdName();
+        if (data != null && !data.equals(waiter.getThirdName())) {
+            waiter.setThirdName(data);
+        }
+
+        data = request.getEmail();
+        if (data != null && !data.equals(waiter.getEmail())) {
+            waiter.setEmail(data);
+        }
+
+        data = request.getAccountBill();
+        if (data != null && !data.equals(waiter.getEmail())) {
+            waiter.setEmail(data);
+        }
+
+        return Mono.just(waitersRepository.save(waiter));
+    }
+
+    public void deleteWaiter(String id) {
+        try {
+            waitersRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new WaiterNotFound();
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**

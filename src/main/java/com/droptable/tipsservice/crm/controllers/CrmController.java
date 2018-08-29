@@ -96,4 +96,21 @@ public class CrmController {
                     )
                 );
     }
+
+    @PutMapping(
+            value = "/stuffs/update",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public Mono<Waiter> updateWaiter(@Valid @RequestBody UpdateWaiterRequest request) {
+        return crmService.updateWaiter(request);
+    }
+
+    @DeleteMapping(
+            value = "/stuffs/update",
+            consumes=MediaType.APPLICATION_JSON_VALUE
+    )
+    public void deleteWaiter(@RequestBody Id id) {
+        crmService.deleteWaiter(id.getId());
+    }
 }
