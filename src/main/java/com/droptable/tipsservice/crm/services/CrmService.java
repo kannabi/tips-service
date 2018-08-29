@@ -11,6 +11,8 @@ import com.droptable.tipsservice.repositories.RestaurantsRepository;
 import com.droptable.tipsservice.repositories.WaitersRepository;
 import com.droptable.tipsservice.security.CustomPasswordEncoder;
 import com.droptable.tipsservice.security.JwtTokenUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
@@ -26,6 +28,8 @@ import java.util.ArrayList;
 
 @Service
 public class CrmService {
+
+    private static final Logger logger = LoggerFactory.getLogger(CrmService.class);
 
     private final RestaurantsRepository restaurantsRepository;
     private final WaitersRepository waitersRepository;

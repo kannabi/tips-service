@@ -5,9 +5,11 @@ import com.droptable.tipsservice.dao.db.Waiter;
 import com.droptable.tipsservice.repositories.TipsRepository;
 import com.droptable.tipsservice.repositories.WaitersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -28,6 +30,23 @@ public class TipsService {
         if (!waiter.isPresent()) {
             throw new NoSuchElementException("There is now waiter with this id");
         }
-        tipsRepository.save(new Tip(time, sum, waiter.get()));
+        Tip save = tipsRepository.save(new Tip(time, sum, waiter.get()));
+        System.out.println("kek");
+    }
+
+    @Scheduled(cron = "0 0 * * *")
+    public void payTips() {
+        Iterator<Tip> tipsIterator = tipsRepository.findAll().iterator();
+
+        Tip tip;
+        while (tipsIterator.hasNext()){
+            tip = tipsIterator.next();
+            pay(tip.getWaiter().getAccountBill());
+            tipsRepository.deleteById(tip.getTime());
+        }
+    }
+
+    private void pay(String accountBill) {
+        //just an empty mock method
     }
 }
