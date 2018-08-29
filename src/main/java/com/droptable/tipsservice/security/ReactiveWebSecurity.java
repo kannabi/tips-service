@@ -26,7 +26,7 @@ public class ReactiveWebSecurity {
 					"/webjars/**",
 					"/crm/auth",
 					"/tips/tip_pay",
-					"/crm/organizations/create"
+					"/crm/organizations"
 //					"/crm/**"
 	 };
 
