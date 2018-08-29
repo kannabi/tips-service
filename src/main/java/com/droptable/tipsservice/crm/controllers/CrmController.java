@@ -91,8 +91,10 @@ public class CrmController {
                 .map(waitersPage ->
                     new WaitersResponse(
                         waitersPage.getContent(),
-                        page,
-                        waitersPage.getTotalPages()
+                        new Meta(
+                            page,
+                            waitersPage.getTotalPages()
+                        )
                     )
                 );
     }

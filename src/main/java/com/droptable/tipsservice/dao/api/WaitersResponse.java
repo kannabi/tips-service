@@ -7,18 +7,14 @@ import java.util.List;
 
 public class WaitersResponse {
 
+    @JsonProperty("stuffs")
     private List<Waiter> waiters;
 
-    @JsonProperty("current_page")
-    private int currentPage;
+    private Meta meta;
 
-    @JsonProperty("total_page")
-    private int totalPages;
-
-    public WaitersResponse(List<Waiter> waiters, int currentPage, int totalPages) {
+    public WaitersResponse(List<Waiter> waiters, Meta meta) {
         this.waiters = waiters;
-        this.currentPage = currentPage;
-        this.totalPages = totalPages;
+        this.meta = meta;
     }
 
     public WaitersResponse() {
@@ -32,19 +28,11 @@ public class WaitersResponse {
         this.waiters = waiters;
     }
 
-    public int getCurrentPage() {
-        return currentPage;
+    public Meta getMeta() {
+        return meta;
     }
 
-    public void setCurrentPage(int currentPage) {
-        this.currentPage = currentPage;
-    }
-
-    public int getTotalPages() {
-        return totalPages;
-    }
-
-    public void setTotalPages(int totalPages) {
-        this.totalPages = totalPages;
+    public void setMeta(Meta meta) {
+        this.meta = meta;
     }
 }
