@@ -56,4 +56,12 @@ public class CrmController {
         return crmService.updateRestaurant(restaurantUpdate)
                 .map(UpdateRestaurantResponse::new);
     }
+
+    @DeleteMapping(
+            value = "/organizations/update",
+            consumes=MediaType.APPLICATION_JSON_VALUE
+    )
+    public void deleteRestaurant(@RequestBody Id id) {
+        crmService.deleteRestaurant(id.getId());
+    }
 }

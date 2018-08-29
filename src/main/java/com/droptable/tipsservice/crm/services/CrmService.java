@@ -12,8 +12,11 @@ import com.droptable.tipsservice.repositories.RestaurantsRepository;
 import com.droptable.tipsservice.security.CustomPasswordEncoder;
 import com.droptable.tipsservice.security.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
@@ -109,5 +112,15 @@ public class CrmService {
 
         return Mono.just(restaurantsRepository.save(restaurant))
                 .map(ApiRestaurant::new);
+    }
+
+    public void deleteRestaurant(String id) {
+        try {
+            restaurantsRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new OrganizationNotFound();
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

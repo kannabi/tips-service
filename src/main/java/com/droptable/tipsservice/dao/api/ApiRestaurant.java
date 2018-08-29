@@ -8,6 +8,8 @@ import java.util.List;
 
 public class ApiRestaurant {
 
+    private String id;
+
     @JsonProperty("name")
     private String name;
 
@@ -23,7 +25,9 @@ public class ApiRestaurant {
     @JsonProperty("stuff_ids")
     private List<String> waiters;
 
-    public ApiRestaurant(String name, String email, String login, String accountBill, List<String> waiters) {
+
+    public ApiRestaurant(String id, String name, String email, String login, String accountBill, List<String> waiters) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.login = login;
@@ -32,6 +36,7 @@ public class ApiRestaurant {
     }
 
     public ApiRestaurant(Restaurant restaurant) {
+        id = restaurant.getId();
         name = restaurant.getName();
         email = restaurant.getEmail();
         login = restaurant.getLogin();
