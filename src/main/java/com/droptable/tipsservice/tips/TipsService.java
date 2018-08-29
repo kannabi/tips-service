@@ -1,6 +1,7 @@
 package com.droptable.tipsservice.tips;
 
 import com.droptable.tipsservice.dao.db.Tip;
+import com.droptable.tipsservice.dao.db.Waiter;
 import com.droptable.tipsservice.repositories.TipsRepository;
 import com.droptable.tipsservice.repositories.WaitersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
