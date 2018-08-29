@@ -93,4 +93,14 @@ public class CrmController {
                     )
                 );
     }
+
+    @PutMapping(
+            value = "/organizations/update",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public Mono<UpdateRestaurantResponse> updateWaiter(@Valid @RequestBody UpdateWaiterRequest request) {
+        return crmService.updateRestaurant(restaurantUpdate)
+                .map(UpdateRestaurantResponse::new);
+    }
 }
