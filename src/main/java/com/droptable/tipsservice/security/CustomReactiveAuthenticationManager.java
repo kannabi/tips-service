@@ -7,8 +7,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import reactor.core.publisher.Mono;
@@ -17,7 +15,7 @@ import reactor.core.scheduler.Schedulers;
 @Component
 public class CustomReactiveAuthenticationManager implements ReactiveAuthenticationManager {
 
-	private PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+
 	private final JwtTokenUtil jwtTokenUtil;
 	private final ReactiveUserDetailsService userDetailsService;
 
@@ -65,10 +63,5 @@ public class CustomReactiveAuthenticationManager implements ReactiveAuthenticati
 			return Mono.error(new InvalidTokenException("Invalid token..."));
 		}
 		return Mono.empty();
-	}
-
-	public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
-		Assert.notNull(passwordEncoder, "passwordEncoder cannot be null");
-		this.passwordEncoder = passwordEncoder;
 	}
 }
