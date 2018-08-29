@@ -27,11 +27,11 @@ public class TipsController {
     @ApiOperation("Process tips for waiter")
     public Response processTip(
             @ApiParam("Waiter's id")
-                    String waiterId,
+                    @RequestParam String waiterId,
             @ApiParam("Sum of a tip to the waiter")
-                    BigDecimal sum,
+                    @RequestParam BigDecimal sum,
             @ApiParam("Time of the tips transaction")
-                    Long time
+                    @RequestParam Long time
     ) {
         try {
             tipsService.registerTips(waiterId, sum, time);

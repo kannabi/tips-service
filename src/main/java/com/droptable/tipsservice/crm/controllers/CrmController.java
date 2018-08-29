@@ -69,7 +69,7 @@ public class CrmController {
     }
 
     @PostMapping(
-            value = "/stuffs/create",
+            value = "/stuffs",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
