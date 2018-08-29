@@ -2,7 +2,6 @@ package com.droptable.tipsservice.crm.controllers;
 
 import com.droptable.tipsservice.crm.services.CrmService;
 import com.droptable.tipsservice.dao.api.*;
-import com.droptable.tipsservice.dao.db.Waiter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -74,8 +73,9 @@ public class CrmController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Mono<Waiter> createWaiter(@RequestBody WaiterCreateRequest request) {
-        return crmService.createWaiter(request);
+    public Mono<WaiterWrapper> createWaiter(@RequestBody WaiterCreateRequest request) {
+        return crmService.createWaiter(request)
+                .map(WaiterWrapper::new);
     }
 
     @GetMapping(
@@ -102,8 +102,9 @@ public class CrmController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Mono<Waiter> updateWaiter(@Valid @RequestBody UpdateWaiterRequest request) {
-        return crmService.updateWaiter(request);
+    public Mono<WaiterWrapper> updateWaiter(@Valid @RequestBody UpdateWaiterRequest request) {
+        return crmService.updateWaiter(request)
+                .map(WaiterWrapper::new);
     }
 
     @DeleteMapping(
